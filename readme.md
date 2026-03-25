@@ -11,5 +11,6 @@ En AI-assistent som hjälper odlare att välja rätt fiskarter baserat på vatte
 ## 🛠 Installation
 1. Klona det här repo:et:
    ```bash
-   git clone https://github.com/anders-ekergard/fiskodlings-assistent.git
-   cd fiskodlings-assistent
+   git clone https://github.com/anders-ekergard/Akvaponi-A.git
+   cd Akvaponi-A
+
