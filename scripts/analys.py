@@ -74,7 +74,7 @@ def analyse_h2o(user_prompt: str, h2odata: pd.DataFrame) -> str:
 
     # Skapa fullständig prompt med vattendata
     analysis_prompt = f"""
-    Ge detaljerade rekommendationer för fiskodling baserat på följande vattenparametrar:
+    Ge detaljerade rekommendationer för akvaponi baserat på följande vattenparametrar:
     {data_str}
     Användarfråga: {user_prompt}
     """
@@ -139,7 +139,12 @@ def spara_historik() -> None:
 
 def main():
     """Huvudfunktionen för att köra analysen och samla feedback."""
-    filepath = "stat_aqua.csv"
+    #Har användaren egen data?
+    data=input("Vill du använda egen data till annalys? (Ja/Nej): ").strip().lower()
+    if data == "Nej":
+        filepath = "stat_aqua.csv"
+    else:
+        filepath = input("Vänligen ladda upp fil i data och ge filnamn."
     try:
         data_str = import_data(filepath)
     except ValueError as e:
@@ -149,8 +154,8 @@ def main():
     # Användarens fråga
     user_prompt = input("Ställ din fråga om akvaponi/vattenbruk: ")
     full_prompt = f"""
-    Vilka fiskar rekommenderas för uppfödning i ett system med följande vattenparametrar?
-    Vattendata:
+    Ge detaljerade rekommendationer för akvaponi baserat på följande vattenparametrar:
+    {data_str}:
     {data_str.to_string(index=False)}
     Användarfråga: {user_prompt}
     """
