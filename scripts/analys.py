@@ -74,16 +74,18 @@ def analyse_h2o(user_prompt: str, h2odata: pd.DataFrame) -> str:
 
     # Skapa fullständig prompt med vattendata
     analysis_prompt = f"""
-    Ge detaljerade rekommendationer för akvaponi baserat på följande vattenparametrar:
+    Ge rekommendationer för akvaponi baserat på följande vattenparametrar:
     {data_str}
-    Användarfråga: {user_prompt}
+   
     """
 
     # Använd OpenAI API för att få rekommendationer
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[{"role": "user", "content": analysis_prompt}],
-        max_tokens=100  # Korrigerat från max_token till max_tokens
+        model="gpt-4o-mini",    response = client.chat.completions.create(
+        
+        messages=[{"role": "system", "content": analysis_prompt},
+                   {"role": "user", "content": user_prompt}],
+        max_tokens=350
     )
 
     # Spara frågan i historiken
