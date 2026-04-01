@@ -97,25 +97,6 @@ def analyse_h2o(user_prompt: str, h2odata: pd.DataFrame) -> str:
 
     return response.choices[0].message.content
 
-def berakna_kostnad(prompt: str, max_completion_tokens: int = 100) -> float:
-    """Beräknar kostnaden för ett API-anrop."""
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[{"role": "user", "content": prompt}],
-        max_tokens=max_completion_tokens  # Korrigerat från max_completion_tokens till max_tokens
-    )
-
-    # Hämta token-användning
-    input_tokens = response.usage.prompt_tokens
-    output_tokens = response.usage.completion_tokens  # Korrigerat från max_completion_tokens
-
-    # Priser för gpt-4o-mini (2026)
-    input_token_price = 0.15 / 1_000_000  # $0.15 per miljon input-tokens
-    output_token_price = 0.60 / 1_000_000  # $0.60 per miljon output-tokens
-
-    # Beräkna kostnad
-    cost = (input_tokens * input_token_price) + (output_tokens * output_token_price)
-    return cost
 
 def samla_feedback(svar: str) -> None:
     """Samlar in feedback från användaren (tumme upp/ner)."""
@@ -156,7 +137,7 @@ def main():
     # Användarens fråga
     user_prompt = input("Ställ din fråga om akvaponi/vattenbruk: ")
     full_prompt = f"""
-    Ge detaljerade rekommendationer för akvaponi baserat på följande vattenparametrar:
+    Ge rekommendationer för akvaponi baserat på följande vattenparametrar:
     {data_str}:
     {data_str.to_string(index=False)}
     Användarfråga: {user_prompt}
@@ -165,10 +146,6 @@ def main():
     # Analysera och få svar
     svar = analyse_h2o(user_prompt, data_str)
     print(f"\nRekommendationer:\n{svar}")
-
-    # Beräkna och visa kostnad
-    kostnad = berakna_kostnad(user_prompt)
-    print(f"\nBeräknad kostnad för API-anropet: ${kostnad:.6f}")
 
     # Samla feedback
     samla_feedback(svar)
