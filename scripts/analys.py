@@ -55,7 +55,7 @@ def is_safe_input(user_prompt: str) -> bool:
     Svara endast med "SAKER" eller "OSAKER".
     """
     response = client.chat.completions.create(
-        model="gpt-4o-mini",  # Uppdaterat från text-davinci-003 till gpt-4o-mini
+        model="gpt-4o-mini",  
         messages=[{"role": "user", "content": safety_prompt}],
         max_tokens=7
     )
